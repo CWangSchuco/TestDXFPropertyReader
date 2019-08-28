@@ -48,7 +48,9 @@ namespace SBA
 
             List<Polygon> polygons = getArea(filename);
 
-            double d = dxfPolydepth(filename);
+            //double d = dxfPolydepth(filename);
+
+            double d = singledepth(polygons.ElementAt(0))[2] - singledepth(polygons.ElementAt(1))[3];
 
             section.d = d / 10;
 
@@ -609,133 +611,133 @@ namespace SBA
 
         // find polygon depth
 
-        public double dxfPolydepth(string filename)
-        {
+        //public double dxfPolydepth(string filename)
+        //{
 
-            // read the dxf file
-            DxfDocument dxfTest;
-            var poly = new Polygon();
-            // dxfTest = OpenProfile("382290.dxf");
-            dxfTest = OpenProfile(filename);
+        //    // read the dxf file
+        //    DxfDocument dxfTest;
+        //    var poly = new Polygon();
+        //    // dxfTest = OpenProfile("382290.dxf");
+        //    dxfTest = OpenProfile(filename);
 
-            int numberSegments = 16;
-            int blockNumber = -1;
+        //    int numberSegments = 16;
+        //    int blockNumber = -1;
 
-            // loop over all relevant blacks and store the hatch boundaries
-            foreach (var bl in dxfTest.Blocks)
-            {
-                // loop over the enteties in the block and decompose them if they belong to an aluminum layer
-                foreach (var ent in bl.Entities)
-                {
-                    if (ent.Layer.Name.ToString().Contains("0S-Alu hatch")) //(ent.Layer.Name.ToString() == "0S-Alu hatch")
-                    {
-                        blockNumber++;
+        //    // loop over all relevant blacks and store the hatch boundaries
+        //    foreach (var bl in dxfTest.Blocks)
+        //    {
+        //        // loop over the enteties in the block and decompose them if they belong to an aluminum layer
+        //        foreach (var ent in bl.Entities)
+        //        {
+        //            if (ent.Layer.Name.ToString().Contains("0S-Alu hatch")) //(ent.Layer.Name.ToString() == "0S-Alu hatch")
+        //            {
+        //                blockNumber++;
 
-                        HatchPattern hp = HatchPattern.Solid;
-                        Hatch myHatch = new Hatch(hp, false);
-                        myHatch = (Hatch)ent;
-                        int pathNumber = -1;
+        //                HatchPattern hp = HatchPattern.Solid;
+        //                Hatch myHatch = new Hatch(hp, false);
+        //                myHatch = (Hatch)ent;
+        //                int pathNumber = -1;
 
-                        foreach (var bPath in myHatch.BoundaryPaths)
-                        {
-                            pathNumber++;
-                            // define the contour list
-                            var contour = new List<Vertex>();
+        //                foreach (var bPath in myHatch.BoundaryPaths)
+        //                {
+        //                    pathNumber++;
+        //                    // define the contour list
+        //                    var contour = new List<Vertex>();
 
-                            for (int i = 0; i < bPath.Edges.Count; i++)
-                            {
+        //                    for (int i = 0; i < bPath.Edges.Count; i++)
+        //                    {
 
-                                switch (bPath.Edges[i].Type.ToString().ToLower())
-                                {
-                                    case "line":
-                                        var myLine = (netDxf.Entities.HatchBoundaryPath.Line)bPath.Edges[i];
-                                        var vLine = new Vertex();
-                                        vLine.X = myLine.Start.X;
-                                        vLine.Y = myLine.Start.Y;
-                                        contour.Add(vLine);
-                                        break;
+        //                        switch (bPath.Edges[i].Type.ToString().ToLower())
+        //                        {
+        //                            case "line":
+        //                                var myLine = (netDxf.Entities.HatchBoundaryPath.Line)bPath.Edges[i];
+        //                                var vLine = new Vertex();
+        //                                vLine.X = myLine.Start.X;
+        //                                vLine.Y = myLine.Start.Y;
+        //                                contour.Add(vLine);
+        //                                break;
 
-                                    case "arc":
-                                        var myArc = (netDxf.Entities.HatchBoundaryPath.Arc)bPath.Edges[i];
+        //                            case "arc":
+        //                                var myArc = (netDxf.Entities.HatchBoundaryPath.Arc)bPath.Edges[i];
 
-                                        double delta = (myArc.EndAngle - myArc.StartAngle) / numberSegments;
+        //                                double delta = (myArc.EndAngle - myArc.StartAngle) / numberSegments;
 
-                                        for (int j = 0; j < numberSegments; j++)
-                                        {
-                                            var vArc = new Vertex();
-                                            double angleArc = (myArc.StartAngle + j * delta) * Math.PI / 180.0;
-                                            if (myArc.IsCounterclockwise == true)
-                                            {
-                                                vArc.X = myArc.Center.X + myArc.Radius * Math.Cos(angleArc);
-                                                vArc.Y = myArc.Center.Y + myArc.Radius * Math.Sin(angleArc);
-                                            }
-                                            else
-                                            {
-                                                vArc.X = myArc.Center.X + myArc.Radius * Math.Cos(Math.PI + angleArc);
-                                                vArc.Y = myArc.Center.Y + myArc.Radius * Math.Sin(Math.PI - angleArc);
-                                            }
+        //                                for (int j = 0; j < numberSegments; j++)
+        //                                {
+        //                                    var vArc = new Vertex();
+        //                                    double angleArc = (myArc.StartAngle + j * delta) * Math.PI / 180.0;
+        //                                    if (myArc.IsCounterclockwise == true)
+        //                                    {
+        //                                        vArc.X = myArc.Center.X + myArc.Radius * Math.Cos(angleArc);
+        //                                        vArc.Y = myArc.Center.Y + myArc.Radius * Math.Sin(angleArc);
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        vArc.X = myArc.Center.X + myArc.Radius * Math.Cos(Math.PI + angleArc);
+        //                                        vArc.Y = myArc.Center.Y + myArc.Radius * Math.Sin(Math.PI - angleArc);
+        //                                    }
 
-                                            contour.Add(vArc);
-                                        }
-                                        break;
+        //                                    contour.Add(vArc);
+        //                                }
+        //                                break;
 
-                                    case "ellipse":
-                                        var myEllipse = (netDxf.Entities.HatchBoundaryPath.Ellipse)bPath.Edges[i];
-                                        double deltaEllipse = (myEllipse.EndAngle - myEllipse.StartAngle) / numberSegments;
+        //                            case "ellipse":
+        //                                var myEllipse = (netDxf.Entities.HatchBoundaryPath.Ellipse)bPath.Edges[i];
+        //                                double deltaEllipse = (myEllipse.EndAngle - myEllipse.StartAngle) / numberSegments;
 
 
-                                        for (int j = 0; j < numberSegments; j++)
-                                        {
-                                            var vEllipse = new Vertex();
-                                            var ellipseRadius = Math.Sqrt(Math.Pow(myEllipse.EndMajorAxis.X, 2) + Math.Pow(myEllipse.EndMajorAxis.Y, 2));
+        //                                for (int j = 0; j < numberSegments; j++)
+        //                                {
+        //                                    var vEllipse = new Vertex();
+        //                                    var ellipseRadius = Math.Sqrt(Math.Pow(myEllipse.EndMajorAxis.X, 2) + Math.Pow(myEllipse.EndMajorAxis.Y, 2));
 
-                                            double angleEllipse = (myEllipse.StartAngle + j * deltaEllipse) * Math.PI / 180.0;
-                                            if (myEllipse.IsCounterclockwise == true)
-                                            {
-                                                vEllipse.X = myEllipse.Center.X + ellipseRadius * Math.Cos(angleEllipse);
-                                                vEllipse.Y = myEllipse.Center.Y + ellipseRadius * Math.Sin(angleEllipse);
-                                            }
-                                            else
-                                            {
-                                                vEllipse.X = myEllipse.Center.X + ellipseRadius * Math.Cos(Math.PI + angleEllipse);
-                                                vEllipse.Y = myEllipse.Center.Y + ellipseRadius * Math.Sin(Math.PI - angleEllipse);
-                                            }
+        //                                    double angleEllipse = (myEllipse.StartAngle + j * deltaEllipse) * Math.PI / 180.0;
+        //                                    if (myEllipse.IsCounterclockwise == true)
+        //                                    {
+        //                                        vEllipse.X = myEllipse.Center.X + ellipseRadius * Math.Cos(angleEllipse);
+        //                                        vEllipse.Y = myEllipse.Center.Y + ellipseRadius * Math.Sin(angleEllipse);
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        vEllipse.X = myEllipse.Center.X + ellipseRadius * Math.Cos(Math.PI + angleEllipse);
+        //                                        vEllipse.Y = myEllipse.Center.Y + ellipseRadius * Math.Sin(Math.PI - angleEllipse);
+        //                                    }
 
-                                            contour.Add(vEllipse);
-                                        }
-                                        break;
+        //                                    contour.Add(vEllipse);
+        //                                }
+        //                                break;
 
-                                }
-                            }
+        //                        }
+        //                    }
 
-                            bool hole = true;
+        //                    bool hole = true;
 
-                            if (pathNumber == 0)
-                            {
-                                hole = false;
-                            }
-                            poly.AddContour(points: contour, marker: 0, hole: hole);
-                        }
-                    }
-                }
-            }
+        //                    if (pathNumber == 0)
+        //                    {
+        //                        hole = false;
+        //                    }
+        //                    poly.AddContour(points: contour, marker: 0, hole: hole);
+        //                }
+        //            }
+        //        }
+        //    }
 
-            // Get the depth
-            double ytop = double.NegativeInfinity;
-            double ybottom = double.PositiveInfinity;
-            foreach (var vertex in poly.Points)
-            {
-                if (ytop <= vertex.Y)
-                {
-                    ytop = vertex.Y;
-                }
-                if (ybottom >= vertex.Y)
-                {
-                    ybottom = vertex.Y;
-                }
-            }
-            return ytop - ybottom;
-        }
+        //    // Get the depth
+        //    double ytop = double.NegativeInfinity;
+        //    double ybottom = double.PositiveInfinity;
+        //    foreach (var vertex in poly.Points)
+        //    {
+        //        if (ytop <= vertex.Y)
+        //        {
+        //            ytop = vertex.Y;
+        //        }
+        //        if (ybottom >= vertex.Y)
+        //        {
+        //            ybottom = vertex.Y;
+        //        }
+        //    }
+        //    return ytop - ybottom;
+        //}
 
         // find single polydepth
 
@@ -743,23 +745,35 @@ namespace SBA
         {
             double ytop = double.NegativeInfinity;
             double ybottom = double.PositiveInfinity;
-            foreach (var vertex in poly.Points)
+
+            for (int i = 0; i < poly.Points.Count(); i += 16)
             {
-                if (ytop <= vertex.Y)
+                if (ytop <= poly.Points.ElementAt(i).Y)
                 {
-                    ytop = vertex.Y;
+                    ytop = poly.Points.ElementAt(i).Y;
                 }
-                if (ybottom >= vertex.Y)
+                if (ybottom >= poly.Points.ElementAt(i).Y)
                 {
-                    ybottom = vertex.Y;
+                    ybottom = poly.Points.ElementAt(i).Y;
                 }
             }
-            double[] results = { ytop - mds.meshCenteroidY, mds.meshCenteroidY - ybottom };
+
+            //foreach (var vertex in poly.Points)
+            //{
+            //    if (ytop <= vertex.Y)
+            //    {
+            //        ytop = vertex.Y;
+            //    }
+            //    if (ybottom >= vertex.Y)
+            //    {
+            //        ybottom = vertex.Y;
+            //    }
+            //}
+            double[] results = { ytop - mds.meshCenteroidY, mds.meshCenteroidY - ybottom, ytop, ybottom };
             return results;
         }
 
         // generate mesh
-
         private TriangleNet.Mesh DxfMesh(Polygon poly)
         {
             // routine to generate a mesh from the contnet of poly
