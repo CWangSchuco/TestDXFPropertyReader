@@ -1,0 +1,11 @@
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\bin\Debug\TestDXFPropertyReader.exe.config
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\bin\Debug\TestDXFPropertyReader.exe
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\bin\Debug\TestDXFPropertyReader.pdb
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\bin\Debug\netDxf.dll
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\bin\Debug\Triangle.dll
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\bin\Debug\netDxf.xml
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\obj\Debug\TestDXFPropertyReader.csprojAssemblyReference.cache
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\obj\Debug\TestDXFPropertyReader.csproj.CoreCompileInputs.cache
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\obj\Debug\TestDXFPropertyReader.csproj.CopyComplete
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\obj\Debug\TestDXFPropertyReader.exe
+D:\Dropbox\12 Schuco\GitRepo\TestDXFPropertyReader\TestDXFPropertyReader\TestDXFPropertyReader\obj\Debug\TestDXFPropertyReader.pdb
